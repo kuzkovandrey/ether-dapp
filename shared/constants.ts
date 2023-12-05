@@ -1,5 +1,7 @@
 import { urlJoin } from 'url-join-ts';
 
+import { Priority } from '@/api';
+
 import { APP_URL } from './env';
 
 export const GAS_PRIORITY_FEE_REVALIDATE_INTERVAL = 15000;
@@ -25,3 +27,9 @@ export const supportedChains = [
     blockchainExplorerUrl: 'https://sepolia.etherscan.io',
   },
 ];
+
+export const priorityColors: { [key in Priority]: 'red' | 'yellow' | 'grass' } = {
+  slow: 'yellow',
+  avg: 'grass',
+  fast: 'red',
+};

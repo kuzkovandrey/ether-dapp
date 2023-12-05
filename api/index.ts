@@ -1,1 +1,1 @@
-export * from "./getGasPriorityFee";
+export * from './getGasPriorityFee';

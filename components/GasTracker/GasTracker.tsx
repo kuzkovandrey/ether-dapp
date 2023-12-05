@@ -1,23 +1,13 @@
 'use client';
 
 import { Card, Flex, Text } from '@radix-ui/themes';
-import { useEffect } from 'react';
 
-import { type GasProrityFee, getProvider } from '@/api';
+import { type GasProrityFee, Priority } from '@/api';
 import { useGasTracker } from '@/hooks';
+import { priorityColors } from '@/shared';
 
 function GasTracker() {
-  const { gasPriorityFee, isLoading, update } = useGasTracker();
-
-  useEffect(() => {
-    const provider = getProvider();
-
-    provider.on('block', update);
-
-    return () => {
-      provider.off('block', update);
-    };
-  }, [update]);
+  const { gasPriorityFee, isLoading } = useGasTracker();
 
   return (
     <Flex position="relative" direction="column" gap="1">
@@ -25,14 +15,14 @@ function GasTracker() {
         {Object.entries(gasPriorityFee.priorityFees).map(([priority, priorityFee]) => (
           <Fee
             key={priority}
-            priority={priority}
+            priority={priority as Priority}
             priorityFee={priorityFee}
             baseFeePerGas={gasPriorityFee.baseFeePerGas}
           />
         ))}
       </Flex>
       {isLoading && (
-        <Text style={{ position: 'absolute', bottom: '-1.5rem', left: 0 }} size="2" color="indigo">
+        <Text style={{ position: 'absolute', bottom: '-1.5rem', left: 0 }} size="2" color="gray">
           Updating...
         </Text>
       )}
@@ -43,11 +33,12 @@ function GasTracker() {
 type FeeProps = {
   baseFeePerGas: GasProrityFee['baseFeePerGas'];
   priorityFee: string;
-  priority: string;
+  priority: Priority;
 };
 
 function Fee({ baseFeePerGas, priorityFee, priority }: FeeProps) {
   const totalFee = Number(baseFeePerGas) + Number(priorityFee);
+  const color = priorityColors[priority] || 'gray';
 
   return (
     <Card style={{ padding: '0.5rem', width: '100%' }}>
@@ -62,7 +53,7 @@ function Fee({ baseFeePerGas, priorityFee, priority }: FeeProps) {
         >
           {priority}
         </Text>
-        <Text style={{ whiteSpace: 'nowrap' }} weight="bold" color="green" size="8">
+        <Text style={{ whiteSpace: 'nowrap' }} weight="bold" color={color} size="8">
           {totalFee} gwei
         </Text>
         <Text color="gray" size="3">

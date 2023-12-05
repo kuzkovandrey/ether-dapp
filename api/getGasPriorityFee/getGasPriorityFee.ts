@@ -1,6 +1,8 @@
-import { RPC_URL } from "@/shared";
-import { formatUnits, JsonRpcProvider } from "ethers";
-import { GetGasPriorityFeeError, GetProviderError } from "./errors";
+import { formatUnits, JsonRpcProvider } from 'ethers';
+
+import { RPC_URL } from '@/shared';
+
+import { GetGasPriorityFeeError, GetProviderError } from './errors';
 
 type Percentage = [number, number, number];
 
@@ -8,9 +10,11 @@ export type FeeHistory = {
   reward: Array<[string, string, string]>;
 };
 
+export type Priority = 'slow' | 'avg' | 'fast';
+
 export class GasProrityFee {
   constructor(
-    public readonly priorityFees: Record<"slow" | "avg" | "fast", string>,
+    public readonly priorityFees: Record<Priority, string>,
     public readonly baseFeePerGas: string
   ) {}
 }
@@ -41,32 +45,20 @@ export async function _getGasPriorityFee(
   percentage: Percentage
 ): Promise<GasProrityFee> {
   try {
-    const feeHistory: FeeHistory = await provider.send("eth_feeHistory", [
-      blocks,
-      "latest",
-      percentage,
-    ]);
+    const feeHistory: FeeHistory = await provider.send('eth_feeHistory', [blocks, 'latest', percentage]);
 
-    const slowFees = computeAvg(
-      feeHistory.reward.map((r) => BigInt(formatUnits(r[0], "wei")))
-    );
-    const avgFees = computeAvg(
-      feeHistory.reward.map((r) => BigInt(formatUnits(r[1], "wei")))
-    );
-    const fastFees = computeAvg(
-      feeHistory.reward.map((r) => BigInt(formatUnits(r[2], "wei")))
-    );
+    const slowFees = computeAvg(feeHistory.reward.map((r) => BigInt(formatUnits(r[0], 'wei'))));
+    const avgFees = computeAvg(feeHistory.reward.map((r) => BigInt(formatUnits(r[1], 'wei'))));
+    const fastFees = computeAvg(feeHistory.reward.map((r) => BigInt(formatUnits(r[2], 'wei'))));
 
-    const pendingBlock = await provider.getBlock("pending");
+    const pendingBlock = await provider.getBlock('pending');
 
     const priorityFees = {
-      slow: formatUnits(slowFees, "gwei"),
-      avg: formatUnits(avgFees, "gwei"),
-      fast: formatUnits(fastFees, "gwei"),
+      slow: formatUnits(slowFees, 'gwei'),
+      avg: formatUnits(avgFees, 'gwei'),
+      fast: formatUnits(fastFees, 'gwei'),
     };
-    const baseFeePerGas = parseInt(
-      formatUnits(pendingBlock?.baseFeePerGas || "0", "gwei")
-    ).toString();
+    const baseFeePerGas = parseInt(formatUnits(pendingBlock?.baseFeePerGas || '0', 'gwei')).toString();
 
     return new GasProrityFee(priorityFees, baseFeePerGas);
   } catch {

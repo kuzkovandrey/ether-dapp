@@ -1,6 +1,2 @@
-export {
-  default as getGasPriorityFee,
-  getProvider,
-  type GasProrityFee,
-} from "./getGasPriorityFee";
-export * from "./errors";
+export * from './errors';
+export { type GasProrityFee, default as getGasPriorityFee, getProvider, type Priority } from './getGasPriorityFee';

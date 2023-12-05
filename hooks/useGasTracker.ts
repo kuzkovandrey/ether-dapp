@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 
-import { GasProrityFee } from '@/api';
+import { GasProrityFee, getProvider } from '@/api';
 import { apiControllers, appFetcher } from '@/shared';
 
 const initialValue: GasProrityFee = {
@@ -25,13 +25,21 @@ function useGasTracker() {
     revalidateOnMount: true,
   });
 
-  const update = useCallback(() => mutate(), [mutate]);
+  useEffect(() => {
+    const provider = getProvider();
+    const handler = () => mutate();
+
+    provider.on('block', handler);
+
+    return () => {
+      provider.off('block', handler);
+    };
+  }, []);
 
   return {
     gasPriorityFee: isLoading ? initialValue : formatGasProrityFee(gasPriorityFee || initialValue),
     isLoading: isLoading || isValidating,
     error,
-    update,
   };
 }
 
