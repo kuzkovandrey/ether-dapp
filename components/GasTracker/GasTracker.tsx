@@ -1,23 +1,26 @@
 'use client';
 
 import { Card, Flex, Text } from '@radix-ui/themes';
+import { useMemo } from 'react';
 
 import { type GasProrityFee, Priority } from '@/api';
 import { useGasTracker } from '@/hooks';
-import { priorityColors } from '@/shared';
+import { MIN_GAS_UNIT } from '@/hooks/useGasTracker';
+import { formatGasProrityFee, priorityColors } from '@/shared';
 
 function GasTracker() {
   const { gasPriorityFee, isLoading } = useGasTracker();
+  const formattedGasPriorityFee = useMemo(() => formatGasProrityFee(gasPriorityFee), [gasPriorityFee]);
 
   return (
     <Flex position="relative" direction="column" gap="1">
       <Flex direction={{ initial: 'column', sm: 'row' }} width="100%" justify="between" gap="4">
-        {Object.entries(gasPriorityFee.priorityFees).map(([priority, priorityFee]) => (
+        {Object.entries(formattedGasPriorityFee.priorityFees).map(([priority, priorityFee]) => (
           <Fee
             key={priority}
             priority={priority as Priority}
             priorityFee={priorityFee}
-            baseFeePerGas={gasPriorityFee.baseFeePerGas}
+            baseFeePerGas={formattedGasPriorityFee.baseFeePerGas}
           />
         ))}
       </Flex>
@@ -37,7 +40,7 @@ type FeeProps = {
 };
 
 function Fee({ baseFeePerGas, priorityFee, priority }: FeeProps) {
-  const totalFee = Number(baseFeePerGas) + Number(priorityFee);
+  const totalFee = (parseFloat(baseFeePerGas) + parseFloat(priorityFee)).toFixed(6);
   const color = priorityColors[priority] || 'gray';
 
   return (
@@ -53,12 +56,18 @@ function Fee({ baseFeePerGas, priorityFee, priority }: FeeProps) {
         >
           {priority}
         </Text>
-        <Text style={{ whiteSpace: 'nowrap' }} weight="bold" color={color} size="8">
+        <Text align="center" weight="bold" color={color} size="8">
           {totalFee} gwei
         </Text>
-        <Text color="gray" size="3">
-          Base: {baseFeePerGas} | Priority: {priorityFee}
-        </Text>
+        <Flex align="center" direction="column">
+          <Text color="gray" size="3">
+            Base: {baseFeePerGas}
+          </Text>
+
+          <Text color="gray" size="3">
+            Priority: {parseFloat(priorityFee) || `<${MIN_GAS_UNIT}`}
+          </Text>
+        </Flex>
       </Flex>
     </Card>
   );

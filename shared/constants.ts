@@ -23,7 +23,7 @@ export const supportedChains = [
   {
     chainId: 11155111,
     token: 'ETH',
-    rpcUrl: 'https://eth-sepolia.g.alchemy.com/v2/demo',
+    rpcUrl: 'https://rpc.sepolia.org',
     blockchainExplorerUrl: 'https://sepolia.etherscan.io',
   },
 ];

@@ -58,7 +58,7 @@ export async function _getGasPriorityFee(
       avg: formatUnits(avgFees, 'gwei'),
       fast: formatUnits(fastFees, 'gwei'),
     };
-    const baseFeePerGas = parseInt(formatUnits(pendingBlock?.baseFeePerGas || '0', 'gwei')).toString();
+    const baseFeePerGas = parseFloat(formatUnits(pendingBlock?.baseFeePerGas || '0', 'gwei')).toString();
 
     return new GasProrityFee(priorityFees, baseFeePerGas);
   } catch {
