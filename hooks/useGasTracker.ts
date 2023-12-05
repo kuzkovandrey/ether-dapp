@@ -1,14 +1,15 @@
-import { GasProrityFee } from "@/api";
-import { apiControllers, appFetcher } from "@/shared";
-import useSWR from "swr";
-import { useCallback } from "react";
+import { useCallback } from 'react';
+import useSWR from 'swr';
+
+import { GasProrityFee } from '@/api';
+import { apiControllers, appFetcher } from '@/shared';
 
 const initialValue: GasProrityFee = {
-  baseFeePerGas: "0",
+  baseFeePerGas: '0',
   priorityFees: {
-    slow: "0",
-    avg: "0",
-    fast: "0",
+    slow: '0',
+    avg: '0',
+    fast: '0',
   },
 };
 
@@ -27,25 +28,20 @@ function useGasTracker() {
   const update = useCallback(() => mutate(), [mutate]);
 
   return {
-    gasPriorityFee: isLoading
-      ? initialValue
-      : formatGasProrityFee(gasPriorityFee || initialValue),
+    gasPriorityFee: isLoading ? initialValue : formatGasProrityFee(gasPriorityFee || initialValue),
     isLoading: isLoading || isValidating,
     error,
     update,
   };
 }
 
-function formatGasProrityFee({
-  baseFeePerGas,
-  priorityFees,
-}: GasProrityFee): GasProrityFee {
+function formatGasProrityFee({ baseFeePerGas, priorityFees }: GasProrityFee): GasProrityFee {
   const formattedPriorityFees = Object.fromEntries(
     Object.entries(priorityFees).map(([key, value]) => [
       key,
-      Number(value) < 1 ? "1" : Math.round(Number(value)).toString(),
+      Number(value) < 1 ? '1' : Math.round(Number(value)).toString(),
     ])
-  ) as GasProrityFee["priorityFees"];
+  ) as GasProrityFee['priorityFees'];
 
   return {
     baseFeePerGas: Math.round(Number(baseFeePerGas)).toString(),

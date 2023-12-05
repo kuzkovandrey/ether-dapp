@@ -1,1 +1,1 @@
-export { default as useGasTracker } from "./useGasTracker";
+export { default as useGasTracker } from './useGasTracker';

@@ -1,14 +1,13 @@
-import { appRoutes } from "@/shared";
-import { Container, Flex, Heading, Link } from "@radix-ui/themes";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
-import { PropsWithChildren } from "react";
+import { Container, Flex, Heading, Link } from '@radix-ui/themes';
+import { PropsWithChildren } from 'react';
+
+import { appRoutes } from '@/shared';
 
 const routes = Object.values(appRoutes);
 
 function Template({ children }: PropsWithChildren) {
   return (
-    <Container style={{ padding: "1rem" }}>
+    <Container style={{ padding: '1rem' }}>
       <Flex direction="column" gap="6">
         <header>
           <Flex gap="4" justify="between" align="center" width="100%">

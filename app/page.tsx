@@ -1,5 +1,6 @@
-import { GasTracker } from "@/components";
-import { Container, Flex } from "@radix-ui/themes";
+import { Container } from '@radix-ui/themes';
+
+import { GasTracker } from '@/components';
 
 function Home() {
   return (
