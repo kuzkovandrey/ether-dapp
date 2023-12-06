@@ -1,10 +1,8 @@
 import { urlJoin } from 'url-join-ts';
 
-import { Priority } from '@/api';
-
 import { APP_URL } from './env';
 
-export const GAS_PRIORITY_FEE_REVALIDATE_INTERVAL = 15000;
+export const MIN_GAS_UNIT = 0.000001;
 
 export const apiControllers = {
   getGasPriorityFee: urlJoin(APP_URL, 'api', 'gas-tracker'),
@@ -15,21 +13,31 @@ type Route = {
   name: string;
 };
 
-export const appRoutes: { [route: string]: Route } = {
-  GAS_TRACKER: { href: '/', name: 'Home' },
+export const appRoutes = {
+  home: <Route>{ href: '/', name: 'Home' },
+} as const;
+
+export type Chain = {
+  name: string;
+  chainId: number;
+  token: string;
+  rpcUrl: string;
+  explorerUrl: string;
 };
 
-export const supportedChains = [
+export const supportedChains: Chain[] = [
   {
+    name: 'Sepolia testnet',
     chainId: 11155111,
     token: 'ETH',
     rpcUrl: 'https://rpc.sepolia.org',
-    blockchainExplorerUrl: 'https://sepolia.etherscan.io',
+    explorerUrl: 'https://sepolia.etherscan.io',
+  },
+  {
+    chainId: 1,
+    name: 'Ethereum',
+    token: 'ETH',
+    rpcUrl: 'https://ethereum.publicnode.com',
+    explorerUrl: 'https://etherscan.io',
   },
 ];
-
-export const priorityColors: { [key in Priority]: 'red' | 'yellow' | 'grass' } = {
-  slow: 'yellow',
-  avg: 'grass',
-  fast: 'red',
-};

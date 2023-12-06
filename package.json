@@ -10,13 +10,15 @@
     "test": "jest"
   },
   "dependencies": {
+    "@metamask/detect-provider": "^2.0.0",
     "@radix-ui/themes": "^2.0.1",
     "ethers": "^6.9.0",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
     "swr": "^2.2.4",
-    "url-join-ts": "^1.0.5"
+    "url-join-ts": "^1.0.5",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

@@ -1,6 +1,5 @@
 import { Block, formatUnits, JsonRpcProvider, parseUnits, toBeHex } from 'ethers';
 
-import { GetGasPriorityFeeError } from './errors';
 import {
   _getGasPriorityFee,
   computeAvg,
@@ -8,6 +7,7 @@ import {
   DEFAULT_PERCENTAGE,
   FeeHistory,
   GasProrityFee,
+  GetGasPriorityFeeError,
 } from './getGasPriorityFee';
 
 describe('[Helpers]: computeAvg function', () => {

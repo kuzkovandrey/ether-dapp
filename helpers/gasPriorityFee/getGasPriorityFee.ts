@@ -1,8 +1,6 @@
 import { formatUnits, JsonRpcProvider } from 'ethers';
 
-import { RPC_URL } from '@/shared';
-
-import { GetGasPriorityFeeError, GetProviderError } from './errors';
+import { getProvider } from '../provider';
 
 type Percentage = [number, number, number];
 
@@ -28,9 +26,10 @@ export const DEFAULT_BLOCKS = 5;
  */
 export default async function getGasPriorityFee(
   blocks = DEFAULT_BLOCKS,
-  percentage = DEFAULT_PERCENTAGE
+  percentage = DEFAULT_PERCENTAGE,
+  rpcUrl?: string
 ): Promise<GasProrityFee> {
-  const provider = getProvider();
+  const provider = getProvider(rpcUrl);
 
   try {
     return await _getGasPriorityFee(provider, blocks, percentage);
@@ -66,14 +65,6 @@ export async function _getGasPriorityFee(
   }
 }
 
-export function getProvider(): JsonRpcProvider {
-  try {
-    return new JsonRpcProvider(RPC_URL, undefined);
-  } catch {
-    throw new GetProviderError();
-  }
-}
-
 export function computeAvg(fees: bigint[]): bigint {
   if (!fees.length) return 0n;
 
@@ -81,3 +72,5 @@ export function computeAvg(fees: bigint[]): bigint {
 
   return (sum * 1000n) / BigInt(fees.length) / 1000n;
 }
+
+export class GetGasPriorityFeeError extends Error {}

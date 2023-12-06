@@ -1,12 +1,15 @@
-import { Container } from '@radix-ui/themes';
+import { Container, Flex } from '@radix-ui/themes';
 
-import { GasTracker } from '@/components';
+import { BlockTable, GasTracker } from '@/components';
 
 function Home() {
   return (
     <main>
       <Container>
-        <GasTracker />
+        <Flex direction="column" gap="6">
+          <GasTracker />
+          <BlockTable />
+        </Flex>
       </Container>
     </main>
   );
