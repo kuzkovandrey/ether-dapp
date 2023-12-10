@@ -1,7 +1,7 @@
 export {
   DEFAULT_BLOCKS,
   DEFAULT_PERCENTAGE,
-  GasProrityFee,
+  GasPriorityFee as GasProrityFee,
   default as getGasPriorityFee,
   type Priority,
 } from './getGasPriorityFee';

@@ -6,7 +6,7 @@ import {
   DEFAULT_BLOCKS,
   DEFAULT_PERCENTAGE,
   FeeHistory,
-  GasProrityFee,
+  GasPriorityFee,
   GetGasPriorityFeeError,
 } from './getGasPriorityFee';
 
@@ -25,7 +25,7 @@ describe('[Helpers]: computeAvg function', () => {
 
 describe('[Mock api call - positive cases]: _getGasPriorityFee function', () => {
   let rewards: FeeHistory['reward'];
-  let expectedPriorityFees: GasProrityFee['priorityFees'];
+  let expectedPriorityFees: GasPriorityFee['priorityFees'];
   let blocks: number;
   let mockProvider: JsonRpcProvider;
 
@@ -50,8 +50,8 @@ describe('[Mock api call - positive cases]: _getGasPriorityFee function', () => 
     test(`Positive cases: ${i}`, async () => {
       const result = await _getGasPriorityFee(mockProvider, blocks, DEFAULT_PERCENTAGE);
 
-      expect(result).toBeInstanceOf(GasProrityFee);
-      expect(result).toEqual(new GasProrityFee(expectedPriorityFees, '1'));
+      expect(result).toBeInstanceOf(GasPriorityFee);
+      expect(result).toEqual(new GasPriorityFee(expectedPriorityFees, '1'));
     });
   }
 });
@@ -84,7 +84,7 @@ describe('[Mock api call - negative cases]: _getGasPriorityFee function', () => 
 
 function generateRewards(blocks: number): {
   rewards: FeeHistory['reward'];
-  expectedPriorityFees: GasProrityFee['priorityFees'];
+  expectedPriorityFees: GasPriorityFee['priorityFees'];
 } {
   const rewards = Array(blocks)
     .fill(null)
@@ -100,7 +100,7 @@ function generateRewards(blocks: number): {
   const avg = computeAvg(rewards.map((r) => BigInt(formatUnits(r[1], 'wei'))));
   const fast = computeAvg(rewards.map((r) => BigInt(formatUnits(r[2], 'wei'))));
 
-  const expectedPriorityFees: GasProrityFee['priorityFees'] = {
+  const expectedPriorityFees: GasPriorityFee['priorityFees'] = {
     slow: formatUnits(slow, 'gwei'),
     avg: formatUnits(avg, 'gwei'),
     fast: formatUnits(fast, 'gwei'),

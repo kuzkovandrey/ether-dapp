@@ -1,4 +1,5 @@
 import { Card, Flex, Text } from '@radix-ui/themes';
+import { formatUnits } from 'ethers';
 
 const priorityColors: { [key: string]: 'red' | 'yellow' | 'grass' | 'gray' } = {
   slow: 'yellow',
@@ -11,11 +12,10 @@ export type GasEstimationProps = {
   baseFeePerGas: string;
   priorityFee: string;
   priority: string;
-  minGasUnit: string | number;
 };
 
-function GasEstimation({ baseFeePerGas, priorityFee, priority, minGasUnit }: GasEstimationProps) {
-  const totalFee = (parseFloat(baseFeePerGas) + parseFloat(priorityFee)).toFixed(6);
+function GasEstimation({ baseFeePerGas, priorityFee, priority }: GasEstimationProps) {
+  const totalFee = formatUnits(BigInt(baseFeePerGas) + BigInt(priorityFee), 'gwei');
   const color = priorityColors[priority] || priorityColors.default;
 
   return (
@@ -36,11 +36,10 @@ function GasEstimation({ baseFeePerGas, priorityFee, priority, minGasUnit }: Gas
         </Text>
         <Flex align="center" direction="column">
           <Text color="gray" size="3">
-            Base: {baseFeePerGas}
+            Base: {formatUnits(baseFeePerGas, 'gwei').toString()}
           </Text>
-
           <Text color="gray" size="3">
-            Priority: {parseFloat(priorityFee) || `<${minGasUnit}`}
+            Priority: {formatUnits(priorityFee, 'gwei').toString()}
           </Text>
         </Flex>
       </Flex>

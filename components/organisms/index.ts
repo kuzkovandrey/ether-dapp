@@ -1,3 +1,4 @@
+export * from './actions';
 export * from './BlockTable';
 export * from './GasTracker';
 export * from './Header';

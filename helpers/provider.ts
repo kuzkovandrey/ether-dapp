@@ -1,8 +1,8 @@
 import { JsonRpcProvider } from 'ethers';
 
-import { supportedChains } from '@/shared';
+import { supportedNetworks } from '@/shared';
 
-export function getProvider(rpcUrl = supportedChains[0].rpcUrl): JsonRpcProvider {
+export function getProvider(rpcUrl = supportedNetworks[0].rpcUrl): JsonRpcProvider {
   try {
     return new JsonRpcProvider(rpcUrl, undefined);
   } catch {

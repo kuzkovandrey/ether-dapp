@@ -1,22 +1,24 @@
 import { PropsWithChildren, useEffect } from 'react';
 
 import { DEFAULT_BLOCKS, DEFAULT_PERCENTAGE, getGasPriorityFee, getProvider } from '@/helpers';
-import { mapBlockToStore, useAppStore, useBlockStore, useGasProrityStore } from '@/store';
+import { initialGasProirityState, mapBlockToStore, useAppStore, useBlockStore, useGasProrityStore } from '@/store';
 
-function NewBlockListener({ children }: PropsWithChildren) {
-  const { chain } = useAppStore();
+function ChainEventsProvider({ children }: PropsWithChildren) {
+  const { activeNetwork } = useAppStore();
   const { append, update, setLoading } = useBlockStore();
-  const { setGasPriorityStore, setLoading: setLoadingGasPrority } = useGasProrityStore();
+  const { setGasPriorityFee, setLoading: setLoadingGasPrority } = useGasProrityStore();
 
   useEffect(() => {
+    if (!activeNetwork) return;
+
     const provider = getProvider();
 
     const fetchGasPriority = async () => {
       try {
         setLoadingGasPrority(true);
-        const gasPriority = await getGasPriorityFee(DEFAULT_BLOCKS, DEFAULT_PERCENTAGE, chain.rpcUrl);
+        const gasPriority = await getGasPriorityFee(DEFAULT_BLOCKS, DEFAULT_PERCENTAGE, activeNetwork.rpcUrl);
 
-        setGasPriorityStore(gasPriority);
+        setGasPriorityFee(gasPriority);
       } catch (error) {
         console.error('getGasPriority error', error);
       } finally {
@@ -48,11 +50,12 @@ function NewBlockListener({ children }: PropsWithChildren) {
 
     return () => {
       provider.off('block');
+      setGasPriorityFee(initialGasProirityState);
       update([]);
     };
-  }, [append, update, setLoading]);
+  }, [append, update, setLoading, setGasPriorityFee, setLoadingGasPrority, activeNetwork]);
 
   return children;
 }
 
-export default NewBlockListener;
+export default ChainEventsProvider;

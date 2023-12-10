@@ -1,6 +1,7 @@
-import { Button, Flex, Text } from '@radix-ui/themes';
+import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
+import { Flex, IconButton, Text } from '@radix-ui/themes';
 
-type PaginationProps = {
+export type PaginationProps = {
   page: number;
   pages: number;
   onNext: () => void;
@@ -13,15 +14,15 @@ function Pagination({ page, pages, onNext, onPrev }: PaginationProps) {
 
   return (
     <Flex align="center" gap="4">
-      <Button disabled={isDisabledPrev} onClick={onPrev}>
-        {'<'}
-      </Button>
-      <Text>
+      <IconButton size="2" disabled={isDisabledPrev} onClick={onPrev}>
+        <ArrowLeftIcon />
+      </IconButton>
+      <Text size="2" weight="bold">
         {page} / {pages}
       </Text>
-      <Button disabled={isDisabledNext} onClick={onNext}>
-        {'>'}
-      </Button>
+      <IconButton size="2" disabled={isDisabledNext} onClick={onNext}>
+        <ArrowRightIcon />
+      </IconButton>
     </Flex>
   );
 }
