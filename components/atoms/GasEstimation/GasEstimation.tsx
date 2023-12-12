@@ -32,7 +32,8 @@ function GasEstimation({ baseFeePerGas, priorityFee, priority }: GasEstimationPr
           {priority}
         </Text>
         <Text align="center" weight="bold" color={color} size="8">
-          {totalFee} gwei
+          {totalFee} <br />
+          gwei
         </Text>
         <Flex align="center" direction="column">
           <Text color="gray" size="3">

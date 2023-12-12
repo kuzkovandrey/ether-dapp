@@ -6,10 +6,11 @@ import { useFormik } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { calculateTimeDifference, GasProrityFee } from '@/helpers';
+import { GasProrityFee } from '@/helpers';
 import { useDebounce } from '@/hooks';
 import { MetamaskError } from '@/metamask';
 import { useMetamaskAccountProvider, useMetamaskProvider } from '@/metamask/providers';
+import { calculateTimeDifference } from '@/shared';
 import { useGasProrityStore } from '@/store';
 
 import { FormValues, initialValues, prepareValuesToSend, validateFormValues } from './utils';

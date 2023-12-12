@@ -1,6 +1,7 @@
 import { FeeData, getAddress, isAddress, parseEther, parseUnits } from 'ethers';
 
 import { GasProrityFee, Priority } from '@/helpers';
+import { getGasPriceByPriority } from '@/shared';
 
 export type FormValues = {
   to: string;
@@ -14,20 +15,6 @@ export const initialValues: FormValues = {
   amount: '',
   customFee: '',
   priority: 'slow',
-};
-
-export const getBaseFeeMultiplier = (priority: Priority): bigint => {
-  if (priority === 'slow') return 125n;
-
-  if (priority === 'avg') return 150n;
-
-  return 200n;
-};
-
-const getGasPriceByPriority = (gasPrice: bigint, priority: Priority): bigint => {
-  const multiplier = getBaseFeeMultiplier(priority);
-
-  return (gasPrice * multiplier) / 100n;
 };
 
 export const prepareValuesToSend = (values: FormValues, gasPriorityFee: GasProrityFee, feeData: FeeData) => {
