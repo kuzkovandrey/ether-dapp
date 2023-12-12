@@ -4,7 +4,10 @@ import { getProvider } from '../provider';
 
 type Percentage = [number, number, number];
 
-const MIN_GAS_PRIORITY_FEE = parseUnits('1', 'gwei');
+const MIN_GAS_PRIORITY_FEE = parseUnits('0.00000001', 'gwei');
+
+export const DEFAULT_PERCENTAGE: Percentage = [15, 50, 75];
+export const DEFAULT_BLOCKS = 5;
 
 export type FeeHistory = {
   reward: Array<[string, string, string]>;
@@ -19,9 +22,6 @@ export class GasPriorityFee {
   ) {}
 }
 
-export const DEFAULT_PERCENTAGE: Percentage = [35, 60, 90];
-export const DEFAULT_BLOCKS = 5;
-
 /**
  * @throws {GetProviderError}
  * @throws {GetGasPriorityFeeError}
@@ -29,7 +29,7 @@ export const DEFAULT_BLOCKS = 5;
 export default async function getGasPriorityFee(
   blocks = DEFAULT_BLOCKS,
   percentage = DEFAULT_PERCENTAGE,
-  rpcUrl?: string
+  rpcUrl: string
 ): Promise<GasPriorityFee> {
   const provider = getProvider(rpcUrl);
 

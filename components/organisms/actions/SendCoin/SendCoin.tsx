@@ -1,25 +1,20 @@
 'use client';
 
 import { Button, Dialog, Flex, RadioGroup, Text, TextField } from '@radix-ui/themes';
-import { FeeData, formatEther, getAddress, isAddress, parseEther, parseUnits } from 'ethers';
+import { formatEther, parseUnits } from 'ethers';
 import { useFormik } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { GasProrityFee, Priority as PriorityType } from '@/helpers';
+import { calculateTimeDifference, GasProrityFee } from '@/helpers';
 import { useDebounce } from '@/hooks';
 import { MetamaskError } from '@/metamask';
 import { useMetamaskAccountProvider, useMetamaskProvider } from '@/metamask/providers';
 import { useGasProrityStore } from '@/store';
 
-type FormValues = { to: string; amount: string; customFee: string; priority: PriorityType };
+import { FormValues, initialValues, prepareValuesToSend, validateFormValues } from './utils';
 
-const initialValues: FormValues = {
-  to: '',
-  amount: '',
-  customFee: '',
-  priority: 'slow',
-};
+const { start, stop } = calculateTimeDifference();
 
 function SendCoin() {
   const { provider, isSupported } = useMetamaskProvider();
@@ -83,16 +78,22 @@ function SendCoin() {
       const feeData = await provider.getFeeData();
       const { value, to, maxPriorityFeePerGas, maxFeePerGas } = prepareValuesToSend(values, gasPriorityFee, feeData);
       const signer = await provider.getSigner();
+
       const tx = await signer.sendTransaction({
         value,
         to,
         maxPriorityFeePerGas,
         maxFeePerGas,
       });
+
+      start();
+
       const txReciept = await tx.wait();
 
       updateBalance();
-      toast.success(`You have successfully sent the coins. Tx hash: ${txReciept?.hash}`, { autoClose: false });
+      toast.success(`You have successfully sent the coins. Tx hash: ${txReciept?.hash}. Time: ${stop()}`, {
+        autoClose: false,
+      });
     } catch (e) {
       const message = (e as MetamaskError).info.error.message;
 
@@ -145,7 +146,7 @@ function SendCoin() {
               name="amount"
               id="amount"
               size="3"
-              placeholder="Amount"
+              placeholder="Amount, ETH"
             />
 
             <Flex direction="column" gap="3">
@@ -166,12 +167,12 @@ function SendCoin() {
                 name="customFee"
                 id="customFee"
                 size="3"
-                placeholder="Custom priority fee"
+                placeholder="Custom priority fee, GWEI"
               />
             </Flex>
             <Flex direction="column">
               <Text>Estimated commission: ~{formatEther(commission.estimated || '0')} ETH</Text>
-              <Text>Max commission: ~{formatEther(commission.max || '0')} ETH</Text>
+              <Text>Max possible commission: ~{formatEther(commission.max || '0')} ETH</Text>
             </Flex>
             <Flex gap="2">
               <Dialog.Close>
@@ -189,25 +190,5 @@ function SendCoin() {
     </Dialog.Root>
   );
 }
-
-const prepareValuesToSend = (values: FormValues, gasPriorityFee: GasProrityFee, feeData: FeeData) => {
-  const estimatedPriorityFee = BigInt(gasPriorityFee.priorityFees[values.priority]);
-  const maxPriorityFeePerGas = Number(values.customFee) ? parseEther(String(values.customFee)) : estimatedPriorityFee;
-
-  return {
-    value: parseEther(String(values.amount)).toString(),
-    to: getAddress(values.to),
-    maxPriorityFeePerGas: maxPriorityFeePerGas,
-    maxFeePerGas: feeData.gasPrice! * 2n + BigInt(maxPriorityFeePerGas),
-  };
-};
-
-const validateFormValues = (form: FormValues): boolean => {
-  if (!isAddress(form.to)) return false;
-
-  if (!Number(form.amount)) return false;
-
-  return Boolean(Number(form.customFee)) || Boolean(form.priority);
-};
 
 export default SendCoin;

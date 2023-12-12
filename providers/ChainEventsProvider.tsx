@@ -11,7 +11,7 @@ function ChainEventsProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     if (!activeNetwork) return;
 
-    const provider = getProvider();
+    const provider = getProvider(activeNetwork.rpcUrl);
 
     const fetchGasPriority = async () => {
       try {
