@@ -1,8 +1,8 @@
 import { getAddress } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 
+import { getMetamastError, MetamaskError } from '../errors';
 import { useMetamaskProvider } from '../providers';
-import { MetamaskError } from '../types';
 
 export type Account = string | null;
 
@@ -34,7 +34,7 @@ function useAccount() {
 
     try {
       const signers = await provider.listAccounts();
-      const account = getAddress(signers[0].address) || null;
+      const account = getAddress(signers[0].address);
 
       if (account) {
         const balance = await provider.getBalance(account);
@@ -66,7 +66,8 @@ function useAccount() {
 
         setAccount(account);
       } catch (e) {
-        onError(e as MetamaskError);
+        console.error(e);
+        onError(getMetamastError(e));
         console.error(e);
       } finally {
         setIsAccountLoading(false);

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 import { GasProrityFee } from '@/helpers';
 import { useDebounce } from '@/hooks';
-import { MetamaskError } from '@/metamask';
+import { getMetamastError } from '@/metamask';
 import { useMetamaskAccountProvider, useMetamaskProvider } from '@/metamask/providers';
 import { calculateTimeDifference } from '@/shared';
 import { useGasProrityStore } from '@/store';
@@ -57,8 +57,9 @@ function SendCoin() {
           max: parseUnits(maxFee.toString(), 'wei').toString(),
         });
       } catch (e) {
-        console.error('debug-error', e);
-        toast.error('Get commission error');
+        const { message, code } = getMetamastError(e);
+
+        toast.error(`${code}: ${message}`);
       } finally {
         setIsLoadingFee(false);
       }
@@ -96,9 +97,9 @@ function SendCoin() {
         autoClose: false,
       });
     } catch (e) {
-      const message = (e as MetamaskError).info.error.message;
+      const { message, code } = getMetamastError(e);
 
-      toast.error(message);
+      toast.error(`${code}: ${message}`);
     } finally {
       setIsLoadingSend(false);
     }

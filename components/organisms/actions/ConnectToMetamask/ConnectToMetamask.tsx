@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import { useMetamaskAccountProvider, useMetamaskProvider } from '@/metamask/providers';
 import { MetamaskIcon } from '@/public/icons';
-import { formatAddressToDisplay } from '@/shared';
+import { formatHashToDisplay } from '@/shared';
 
 function ConnectToMetamask() {
   const { isSupported, isReady } = useMetamaskProvider();
@@ -15,7 +15,7 @@ function ConnectToMetamask() {
   const onError = useCallback((message: string) => toast.error(message), []);
 
   const onClick = useCallback(() => {
-    connect(({ info }) => onError(info.error.message));
+    connect(({ message }) => onError(message));
   }, [connect, onError]);
 
   if (!isReady) {
@@ -30,7 +30,7 @@ function ConnectToMetamask() {
     return <ConnectButton onClick={onClick}>Connect to Metamask</ConnectButton>;
   }
 
-  return <ConnectButton color="amber">{formatAddressToDisplay(account, 4)}</ConnectButton>;
+  return <ConnectButton color="amber">{formatHashToDisplay(account, 4)}</ConnectButton>;
 }
 
 type ConnectButtonProps = PropsWithChildren<{

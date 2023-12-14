@@ -1,8 +1,10 @@
 import { Priority } from '@/helpers';
 
-export const appFetcher = (url: string) => fetch(url).then((r) => r.json());
+export const formatHashToDisplay = (hash: string, before = 3, after = 5) => {
+  if (hash.length <= before + after) {
+    return hash;
+  }
 
-export const formatAddressToDisplay = (hash: string, before = 3, after = 5) => {
   return hash.substring(0, before) + '...' + hash.substring(hash.length - after);
 };
 
@@ -42,3 +44,18 @@ export const calculateTimeDifference = () => {
     stop,
   };
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function setupFetchStub(data: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return function fetchStub(_url: URL): Promise<any> {
+    return new Promise((resolve) => {
+      resolve({
+        json: () =>
+          Promise.resolve({
+            data,
+          }),
+      });
+    });
+  };
+}

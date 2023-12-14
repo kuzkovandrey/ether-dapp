@@ -13,14 +13,14 @@ function Pagination({ page, pages, onNext, onPrev }: PaginationProps) {
   const isDisabledNext = pages <= 1 || page === pages;
 
   return (
-    <Flex align="center" gap="4">
-      <IconButton size="2" disabled={isDisabledPrev} onClick={onPrev}>
+    <Flex data-testid="pagination" align="center" gap="4">
+      <IconButton data-testid="prev-button" size="2" disabled={isDisabledPrev} onClick={onPrev}>
         <ArrowLeftIcon />
       </IconButton>
-      <Text size="2" weight="bold">
+      <Text data-testid="pages-text" size="2" weight="bold">
         {page} / {pages}
       </Text>
-      <IconButton size="2" disabled={isDisabledNext} onClick={onNext}>
+      <IconButton data-testid="next-button" size="2" disabled={isDisabledNext} onClick={onNext}>
         <ArrowRightIcon />
       </IconButton>
     </Flex>

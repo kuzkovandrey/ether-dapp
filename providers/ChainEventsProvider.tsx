@@ -1,6 +1,7 @@
+import { JsonRpcProvider } from 'ethers';
 import { PropsWithChildren, useEffect } from 'react';
 
-import { DEFAULT_BLOCKS, DEFAULT_PERCENTAGE, getGasPriorityFee, getProvider } from '@/helpers';
+import { getGasPriorityFee } from '@/helpers';
 import { initialGasProirityState, mapBlockToStore, useAppStore, useBlockStore, useGasProrityStore } from '@/store';
 
 function ChainEventsProvider({ children }: PropsWithChildren) {
@@ -11,12 +12,12 @@ function ChainEventsProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     if (!activeNetwork) return;
 
-    const provider = getProvider(activeNetwork.rpcUrl);
+    const provider = new JsonRpcProvider(activeNetwork.rpcUrl, undefined);
 
     const fetchGasPriority = async () => {
       try {
         setLoadingGasPrority(true);
-        const gasPriority = await getGasPriorityFee(DEFAULT_BLOCKS, DEFAULT_PERCENTAGE, activeNetwork.rpcUrl);
+        const gasPriority = await getGasPriorityFee({ provider });
 
         setGasPriorityFee(gasPriority);
       } catch (error) {
@@ -39,21 +40,22 @@ function ChainEventsProvider({ children }: PropsWithChildren) {
       }
     };
 
-    const handler = async (blockNumber: number) => {
+    fetchGasPriority();
+
+    const handlers = async (blockNumber: number) => {
       fetchGasPriority();
       fetchBlock(blockNumber);
     };
 
-    fetchGasPriority();
-
-    provider.on('block', handler);
+    provider.on('block', handlers);
 
     return () => {
-      provider.off('block');
+      provider.off('block', handlers);
+      provider.destroy();
       setGasPriorityFee(initialGasProirityState);
       update([]);
     };
-  }, [append, update, setLoading, setGasPriorityFee, setLoadingGasPrority, activeNetwork]);
+  }, [activeNetwork]);
 
   return children;
 }
