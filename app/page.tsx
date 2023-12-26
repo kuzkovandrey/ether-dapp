@@ -1,6 +1,6 @@
 import { Container, Flex } from '@radix-ui/themes';
 
-import { BlockTable, GasTracker, Wallet } from '@/components';
+import { BlockTable, GasTracker, TokenEvents, Wallet } from '@/components';
 
 function Home() {
   return (
@@ -10,6 +10,7 @@ function Home() {
           <Wallet />
           <GasTracker />
           <BlockTable />
+          <TokenEvents />
         </Flex>
       </Container>
     </main>

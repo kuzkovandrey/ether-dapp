@@ -17,7 +17,9 @@ const useAppStore = create<AppStore>((set) => ({
   setTheme: (theme) => set((state) => ({ ...state, theme })),
 
   activeNetwork: supportedNetworks[0],
-  setActiveNetwork: (network) => set((state) => ({ ...state, activeNetwork: network })),
+  setActiveNetwork: (network) => {
+    set((state) => ({ ...state, activeNetwork: network }));
+  },
 }));
 
 export default useAppStore;
