@@ -3,25 +3,25 @@ import { ReactNode } from 'react';
 
 export type NetworkInfoProps = {
   name: string;
-  connectedTo?: string;
   isConnected: boolean;
   actionSlot?: ReactNode;
 };
 
-function NetworkInfo({ name, isConnected, connectedTo, actionSlot }: NetworkInfoProps) {
+function NetworkInfo({ name, isConnected, actionSlot }: NetworkInfoProps) {
   return (
-    <Card style={{ width: '100%' }}>
+    <Card data-testid="network-info" style={{ width: '100%' }}>
       <Flex direction="column" gap="4">
         <Flex justify="between" align="center">
-          <Heading size="3">Network: {name}</Heading>
+          <Heading data-testid="network-info-heading" size="3">
+            Network: {name}
+          </Heading>
           <Flex gap="2" align="center">
-            {connectedTo}
-            <Badge size="2" color={isConnected ? 'green' : 'red'}>
+            <Badge data-testid="network-info-badge" size="2" color={isConnected ? 'green' : 'red'}>
               {isConnected ? 'Connected' : 'Not connected'}
             </Badge>
           </Flex>
         </Flex>
-        {actionSlot}
+        {actionSlot && <div data-testid="network-info-action-slot">{actionSlot}</div>}
       </Flex>
     </Card>
   );

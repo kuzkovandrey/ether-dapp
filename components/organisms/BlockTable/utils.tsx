@@ -6,22 +6,11 @@ import { urlJoin } from 'url-join-ts';
 import { BLOCKCHAIN_EXPLORER_URL } from '@/shared';
 import { Block } from '@/store';
 
+import { NONE_VALUE } from '@/components/molecules';
+
 type Keys = keyof Block;
 
 export type FormattedBlock = Record<Keys, ReactNode>;
-
-export const colums: { [key in keyof Block]: string } = {
-  number: 'Block number',
-  hash: 'Hash',
-  txCount: 'Txn',
-  gasUsed: 'Gas Used, gwei',
-  gasLimit: 'Gas Limit, gwei',
-  baseFee: 'Base fee, gwei',
-};
-
-export const renderRowQueue = Object.keys(colums) as Keys[];
-
-const NONE_VALUE = '--';
 
 export function mapBlockToTable(block: Block): FormattedBlock {
   return {

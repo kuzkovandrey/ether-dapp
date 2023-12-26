@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table component # component must have data content 1`] = `
+<tr
+  class="rt-TableRow"
+  data-testid="table-row"
+>
+  <td
+    class="rt-TableCell"
+  >
+    field11
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <div>
+      21
+    </div>
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <p>
+      31
+    </p>
+  </td>
+</tr>
+`;
+
+exports[`Table component # component must have data content 2`] = `
+<tr
+  class="rt-TableRow"
+  data-testid="table-row"
+>
+  <td
+    class="rt-TableCell"
+  >
+    field12
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <div>
+      22
+    </div>
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <p>
+      32
+    </p>
+  </td>
+</tr>
+`;
+
+exports[`Table component # component must have data content 3`] = `
+<tr
+  class="rt-TableRow"
+  data-testid="table-row"
+>
+  <td
+    class="rt-TableCell"
+  >
+    field13
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <div>
+      23
+    </div>
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <p>
+      33
+    </p>
+  </td>
+</tr>
+`;
+
+exports[`Table component # component must have data content 4`] = `
+<tr
+  class="rt-TableRow"
+  data-testid="table-row"
+>
+  <td
+    class="rt-TableCell"
+  >
+    field11
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <div>
+      21
+    </div>
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <p>
+      31
+    </p>
+  </td>
+</tr>
+`;
+
+exports[`Table component # component must have data content 5`] = `
+<tr
+  class="rt-TableRow"
+  data-testid="table-row"
+>
+  <td
+    class="rt-TableCell"
+  >
+    field12
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <div>
+      22
+    </div>
+  </td>
+  <td
+    class="rt-TableCell"
+  >
+    <p>
+      32
+    </p>
+  </td>
+</tr>
+`;
+
+exports[`Table component # component must have header cells with text content 1`] = `
+<th
+  class="rt-TableCell rt-TableColumnHeaderCell"
+  data-testid="table-header-cell"
+  scope="col"
+>
+  field title
+</th>
+`;
+
+exports[`Table component # component must have header cells with text content 2`] = `
+<th
+  class="rt-TableCell rt-TableColumnHeaderCell"
+  data-testid="table-header-cell"
+  scope="col"
+>
+  <div>
+    field2 title
+  </div>
+</th>
+`;
+
+exports[`Table component # component must have header cells with text content 3`] = `
+<th
+  class="rt-TableCell rt-TableColumnHeaderCell"
+  data-testid="table-header-cell"
+  scope="col"
+>
+  <p>
+    field3 title
+  </p>
+</th>
+`;

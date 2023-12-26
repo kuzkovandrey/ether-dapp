@@ -1,9 +1,11 @@
 import { PropsWithChildren } from 'react';
+import { Provider as ReduxStoreProvider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { MetamaskAccountProvider, MetamaskProvider } from '@/metamask/providers';
 import { ChainEventsProvider, ThemeProvider } from '@/providers';
 import { useAppStore } from '@/store';
+import { store } from '@/store/redux-store';
 
 function Providers({ children }: PropsWithChildren) {
   const { theme } = useAppStore();
@@ -13,7 +15,9 @@ function Providers({ children }: PropsWithChildren) {
       <ThemeProvider>
         <MetamaskProvider>
           <MetamaskAccountProvider>
-            <ChainEventsProvider>{children}</ChainEventsProvider>
+            <ReduxStoreProvider store={store}>
+              <ChainEventsProvider>{children}</ChainEventsProvider>
+            </ReduxStoreProvider>
           </MetamaskAccountProvider>
         </MetamaskProvider>
       </ThemeProvider>

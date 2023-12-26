@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NetworkInfo component # component must have action contect 1`] = `
+<div
+  data-testid="network-info-action-slot"
+>
+  <p>
+    Action
+  </p>
+</div>
+`;

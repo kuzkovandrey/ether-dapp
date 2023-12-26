@@ -2,12 +2,14 @@ import { JsonRpcProvider } from 'ethers';
 import { PropsWithChildren, useEffect } from 'react';
 
 import { getGasPriorityFee } from '@/helpers';
-import { initialGasProirityState, mapBlockToStore, useAppStore, useBlockStore, useGasProrityStore } from '@/store';
+import { useAppStore } from '@/store';
+import { useAppDispatch } from '@/store/redux-store';
+import { append, mapBlockToStore, setLoading, update } from '@/store/redux-store/blocks';
+import { initialState, setGasPriorityFee, setLoading as setLoadingGasPrority } from '@/store/redux-store/gasProrityFee';
 
 function ChainEventsProvider({ children }: PropsWithChildren) {
   const { activeNetwork } = useAppStore();
-  const { append, update, setLoading } = useBlockStore();
-  const { setGasPriorityFee, setLoading: setLoadingGasPrority } = useGasProrityStore();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!activeNetwork) return;
@@ -16,27 +18,27 @@ function ChainEventsProvider({ children }: PropsWithChildren) {
 
     const fetchGasPriority = async () => {
       try {
-        setLoadingGasPrority(true);
+        dispatch(setLoadingGasPrority(true));
         const gasPriority = await getGasPriorityFee({ provider });
 
-        setGasPriorityFee(gasPriority);
+        dispatch(setGasPriorityFee(gasPriority));
       } catch (error) {
         console.error('getGasPriority error', error);
       } finally {
-        setLoadingGasPrority(false);
+        dispatch(setLoadingGasPrority(false));
       }
     };
 
     const fetchBlock = async (blockNumber: number) => {
       try {
-        setLoading(true);
+        dispatch(setLoading(true));
         const block = await provider.getBlock(blockNumber);
 
-        if (block) append(mapBlockToStore(block));
+        if (block) dispatch(append(mapBlockToStore(block)));
       } catch (error) {
         console.error('Fetch block error', error);
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
@@ -52,8 +54,8 @@ function ChainEventsProvider({ children }: PropsWithChildren) {
     return () => {
       provider.off('block', handlers);
       provider.destroy();
-      setGasPriorityFee(initialGasProirityState);
-      update([]);
+      dispatch(setGasPriorityFee(initialState.gasPriorityFee));
+      dispatch(update([]));
     };
   }, [activeNetwork]);
 

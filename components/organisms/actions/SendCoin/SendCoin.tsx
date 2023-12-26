@@ -11,7 +11,7 @@ import { useDebounce } from '@/hooks';
 import { getMetamastError } from '@/metamask';
 import { useMetamaskAccountProvider, useMetamaskProvider } from '@/metamask/providers';
 import { calculateTimeDifference } from '@/shared';
-import { useGasProrityStore } from '@/store';
+import { useAppSelector } from '@/store/redux-store';
 
 import { FormValues, initialValues, prepareValuesToSend, validateFormValues } from './utils';
 
@@ -20,7 +20,7 @@ const { start, stop } = calculateTimeDifference();
 function SendCoin() {
   const { provider, isSupported } = useMetamaskProvider();
   const { isConnected, isSupportedChain, updateBalance } = useMetamaskAccountProvider();
-  const { gasPriorityFee } = useGasProrityStore();
+  const { gasPriorityFee } = useAppSelector((store) => store.gasPriorityFee);
 
   const [isOpen, setIsOpen] = useState(false);
   const [commission, setCommission] = useState({ estimated: '', max: '' });
