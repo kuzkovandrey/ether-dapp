@@ -16,15 +16,17 @@ export type TableColumn<D> = {
 
 export type TableColumns<D> = Array<TableColumn<D>>;
 
+export type PaginationProps = {
+  page: number;
+  pages: number;
+  rowsPerPage: number;
+  onClickNext: () => void;
+  onClickPrev: () => void;
+};
+
 export type TableProps<D> = {
   heading: string;
-  pagination: {
-    page: number;
-    pages: number;
-    rowsPerPage: number;
-    onClickNext: () => void;
-    onClickPrev: () => void;
-  };
+  pagination: PaginationProps;
   data: Array<D>;
   columns: TableColumns<D>;
   isLoading?: boolean;
