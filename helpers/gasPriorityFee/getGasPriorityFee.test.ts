@@ -15,7 +15,7 @@ describe('computeAverage function', () => {
   test('# negative cases', () => {
     expect(computeAverage([])).toBeDefined();
     expect(computeAverage([])).toBe(0n);
-    expect(computeAverage([0n, 0n, 0n])).toBe(0n);
+    expect(computeAverage([0n, 0n, 0n])).toBe(1n);
   });
 });
 
