@@ -44,18 +44,3 @@ export const calculateTimeDifference = () => {
     stop,
   };
 };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function setupFetchStub(data: any) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return function fetchStub(_url: URL): Promise<any> {
-    return new Promise((resolve) => {
-      resolve({
-        json: () =>
-          Promise.resolve({
-            data,
-          }),
-      });
-    });
-  };
-}

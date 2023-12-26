@@ -11,28 +11,32 @@ type SubscribeParams = {
   address: string;
 };
 
-type TokenEvent = {
+export type TokenTransferEvent = {
   from: string;
   to: string;
   value: string;
   eventData: unknown;
 };
 
-function useTokenEvents() {
+function useTokenTransferEvents() {
   const { provider, isSupported } = useMetamaskProvider();
   const contractRef = useRef<Contract | null>(null);
-  const [events, setEvents] = useState<Array<TokenEvent>>([]);
+  const [events, setEvents] = useState<Array<TokenTransferEvent>>([]);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
-  const subscribe = ({ address, to: _to, from: _from }: SubscribeParams) => {
-    if (isSupported) {
-      contractRef.current = new Contract(address, erc20Abi, provider);
+  const subscribe = ({ address, to: _to, from: _from }: SubscribeParams, onError?: () => void) => {
+    try {
+      if (isSupported) {
+        contractRef.current = new Contract(address, erc20Abi, provider);
 
-      contractRef.current.filters.Transfer(_from, _to);
-      contractRef.current.on('Transfer', (from: string, to: string, value: string, eventData: unknown) => {
-        setEvents((e) => [...e, { from, to, value, eventData }]);
-      });
-      setIsSubscribed(true);
+        contractRef.current.filters.Transfer(_from, _to);
+        contractRef.current.on('Transfer', (from: string, to: string, value: string, eventData: unknown) => {
+          setEvents((e) => [...e, { from, to, value, eventData }]);
+        });
+        setIsSubscribed(true);
+      }
+    } catch {
+      onError?.();
     }
   };
 
@@ -57,4 +61,4 @@ function useTokenEvents() {
   };
 }
 
-export default useTokenEvents;
+export default useTokenTransferEvents;
