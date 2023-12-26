@@ -1,11 +1,3 @@
-import { urlJoin } from 'url-join-ts';
-
-import { APP_URL } from './env';
-
-export const apiControllers = {
-  getGasPriorityFee: urlJoin(APP_URL, 'api', 'gas-tracker'),
-} as const;
-
 type Route = {
   href: string;
   name: string;

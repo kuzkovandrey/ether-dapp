@@ -1,11 +1,9 @@
 'use client';
 
-import { Link, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
 import { formatUnits } from 'ethers';
 import { useMemo } from 'react';
-import { urlJoin } from 'url-join-ts';
 
-import { BLOCKCHAIN_EXPLORER_URL } from '@/shared';
 import { useAppDispatch, useAppSelector } from '@/store/redux-store';
 import { type Block, setPage } from '@/store/redux-store/blocks';
 
@@ -47,12 +45,10 @@ const TABLE_COLUMNS: TableColumns<Block> = [
   {
     key: 'hash',
     title: 'Hash',
-    render: ({ hash, number }) => (
+    render: ({ hash }) => (
       <Text size="1" color="green">
         {hash ? (
-          <Link target="_blank" color="green" href={urlJoin(BLOCKCHAIN_EXPLORER_URL, 'block', String(number))}>
-            {hash.substring(0, 3) + '...' + hash.substring(hash.length - 5)}
-          </Link>
+          <Text color="green">{hash.substring(0, 3) + '...' + hash.substring(hash.length - 5)}</Text>
         ) : (
           NONE_VALUE
         )}
