@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
+## Run project
 ```bash
-npm run dev
-# or
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Run tests
+```bash
+yarn test
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Github action workflows
+### Deployed to Vercel ([link](https://eth-dapp-rfo2uhubq-kuzkovandrey.vercel.app/)).
+- [Deploy to Vercel](https://github.com/kuzkovandrey/ether-dapp/blob/main/.github/workflows/deploy.yml)
+- [Test delelop branch](https://github.com/kuzkovandrey/ether-dapp/blob/main/.github/workflows/test.yml)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Test files
+### Atoms components
+- [GasEstimation component](https://github.com/kuzkovandrey/ether-dapp/tree/main/components/atoms/GasEstimation)
+- [Pagination component](https://github.com/kuzkovandrey/ether-dapp/tree/main/components/atoms/Pagination)
 
-## Learn More
+### Molecules components
+- [NetworkInfo component](https://github.com/kuzkovandrey/ether-dapp/tree/main/components/molecules/NetworkInfo)
+- [Table component](https://github.com/kuzkovandrey/ether-dapp/tree/main/components/molecules/Table)
 
-To learn more about Next.js, take a look at the following resources:
+### Components with redux store
+- [GasTracker component](https://github.com/kuzkovandrey/ether-dapp/tree/main/components/organisms/GasTracker)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Utils
+- [computeAverage](https://github.com/kuzkovandrey/ether-dapp/blob/main/helpers/gasPriorityFee/getGasPriorityFee.ts#L64), [test file](https://github.com/kuzkovandrey/ether-dapp/blob/main/helpers/gasPriorityFee/getGasPriorityFee.test.ts#L9)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Helpers
+- [getGasPriorityFee](https://github.com/kuzkovandrey/ether-dapp/tree/main/helpers/gasPriorityFee)
