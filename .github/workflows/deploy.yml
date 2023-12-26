@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to Vercel
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -9,14 +9,13 @@ on:
       - main
 jobs:
   test:
-    - name: Run tests for main branch
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - name: Install dependencies
-          run: yarn install
-        - name: Run tests
-          run: yarn test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: yarn install
+      - name: Run tests
+        run: yarn test
   deploy:
     - name: Deploy main branch to Vercel
       needs: test

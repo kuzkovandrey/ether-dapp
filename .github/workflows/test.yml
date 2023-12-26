@@ -1,11 +1,10 @@
-name: Test
+name: Test develop
 on:
   push:
     branches:
       - develop
 jobs:
   test:
-    - name: Run tests for develop branch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
